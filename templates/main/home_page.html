@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+<main>
+<div class="coupons">
+    <!-- Search field goes here -->
+    <input type="text" placeholder="Search..." id="search" class="search-field">
+
+    <!-- Filter button goes here -->
+    <div class="filter-button" onclick="openFilterModal()">Filter</div>
+
+    <!-- Coupons go here -->
+    <div class="coupon-item">
+        <img src="coupon1.jpg" alt="Coupon Image">
+        <div>
+            <h3>Coupon Title 1</h3>
+            <p>Description of the coupon goes here.</p>
+            <p><strong>Discount:</strong> 20% off</p>
+        </div>
+    </div>
+
+    <div class="coupon-item">
+        <img src="coupon2.jpg" alt="Coupon Image">
+        <div>
+            <h3>Coupon Title 2</h3>
+            <p>Description of the coupon goes here.</p>
+            <p><strong>Discount:</strong> $10 off</p>
+        </div>
+    </div>
+
+    <div class="coupon-item">
+        <img src="coupon2.jpg" alt="Coupon Image">
+        <div>
+            <h3>Coupon Title 2</h3>
+            <p>Description of the coupon goes here.</p>
+            <p><strong>Discount:</strong> $10 off</p>
+        </div>
+    </div>
+
+    <div class="coupon-item">
+        <img src="coupon2.jpg" alt="Coupon Image">
+        <div>
+            <h3>Coupon Title 2</h3>
+            <p>Description of the coupon goes here.</p>
+            <p><strong>Discount:</strong> $10 off</p>
+        </div>
+    </div>
+
+    <!-- Add more coupons as needed -->
+</div>
+</main>
+
+<!-- Filter modal goes here -->
+<div id="filterModal" class="filter-modal" onclick="closeFilterModal()">
+    <div class="filter-content">
+        <h2>Filters</h2>
+        <!-- Add your filter options here -->
+        <label for="category">Category:</label>
+        <select id="category">
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+            <!-- Add more options as needed -->
+        </select>
+        <!-- Add more filters as needed -->
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Your Company Name. All rights reserved.</p>
+</footer>
+
+<script>
+        function openFilterModal() {
+            document.getElementById('filterModal').style.display = 'flex';
+        }
+
+        function closeFilterModal() {
+            document.getElementById('filterModal').style.display = 'none';
+        }
+
+</script>
+{% endblock %}
