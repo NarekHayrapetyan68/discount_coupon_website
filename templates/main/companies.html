@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'img/no_image.jpeg' %}">
+<link rel="stylesheet" href="{% static 'css/search.css' %}">
+<link rel="stylesheet" href="{% static 'css/card.css' %}">
+<form class="search" action="">
+  <div class="search-field-container">
+        <input type="text" placeholder="Search...">
+    </div>
+</form>
+<div class="card-container">
+  <div class="card">
+    <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}" alt="Company Logo">
+    <div class="company-name">Company Name</div>
+    <div class="category">Category</div>
+    <div class="coupons">Coupons: 8</div>
+  </div>
+  <div class="card">
+    <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}" alt="Company Logo">
+    <div class="company-name">Company Name</div>
+    <div class="category">Category</div>
+    <div class="coupons">Coupons: 8</div>
+  </div>
+  <div class="card">
+    <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}" alt="Company Logo">
+    <div class="company-name">Company Name</div>
+    <div class="category">Category</div>
+    <div class="coupons">Coupons: 8</div>
+  </div>
+  <div class="card">
+    <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}" alt="Company Logo">
+    <div class="company-name">Company Name</div>
+    <div class="category">Category</div>
+    <div class="coupons">Coupons: 8</div>
+  </div>
+  <div class="card">
+    <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}" alt="Company Logo">
+    <div class="company-name">Company Name</div>
+    <div class="category">Category</div>
+    <div class="coupons">Coupons: 8</div>
+  </div><div class="card">
+    <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}" alt="Company Logo">
+    <div class="company-name">Company Name</div>
+    <div class="category">Category</div>
+    <div class="coupons">Coupons: 8</div>
+  </div>
+
+</div>
+
+{% endblock %}

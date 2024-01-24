@@ -1,85 +1,123 @@
 {% extends "base.html" %}
 {% load static %}
 
-
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+<link rel="stylesheet" href="{% static 'img/no_image.jpeg' %}">
+<link rel="stylesheet" href="{% static 'css/ion.rangeSlider.min.css' %}" />
+<script src="{% static 'js/ion.rangeSlider.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <main>
-<div class="coupons">
-    <!-- Search field goes here -->
-    <input type="text" placeholder="Search..." id="search" class="search-field">
+    <div class="coupons">
+        <input type="text" placeholder="Search..." id="search" class="search-field">
+        <button id="filterButton">
+            <div class="filter-button" type="button" onclick="openFilterModal()">Filter</div>
+        </button>
 
-    <!-- Filter button goes here -->
-    <div class="filter-button" onclick="openFilterModal()">Filter</div>
-
-    <!-- Coupons go here -->
-    <div class="coupon-item">
-        <img src="coupon1.jpg" alt="Coupon Image">
-        <div>
-            <h3>Coupon Title 1</h3>
-            <p>Description of the coupon goes here.</p>
-            <p><strong>Discount:</strong> 20% off</p>
+        {% for coupon in coupons %}
+        <div class="coupon-item claimed" id="coupon{{ coupon.id }}">
+            <a href="#"><img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}" alt="Company Logo"></a>
+            <div>
+                <h3>{{ coupon.company.name }}</h3>
+                <p>{{ coupon.about }}</p>
+                <p><strong>Discount:</strong> {{ coupon.discount_percent }}%</p>
+                {% if not coupon.claimed %}
+                <form id="claimForm{{ coupon.id }}" data-coupon-id="{{ coupon.id }}" action="#" method="post"
+                      onsubmit="claimCoupon(event)">
+                    {% csrf_token %}
+                    <button id="claimButton{{ coupon.id }}" type="submit" class="claim-button">Claim</button>
+                </form>
+                {% else %}
+                <form id="unclaimForm{{ coupon.id }}" data-coupon-id="{{ coupon.id }}" action="#" method="post"
+                      onsubmit="unclaimCoupon(event)">
+                    {% csrf_token %}
+                    <button id="unclaimButton{{ coupon.id }}" type="submit" class="unclaim-button">Unclaim</button>
+                </form>
+                {% endif %}
+            </div>
         </div>
-    </div>
+        {% endfor %}
 
-    <div class="coupon-item">
-        <img src="coupon2.jpg" alt="Coupon Image">
-        <div>
-            <h3>Coupon Title 2</h3>
-            <p>Description of the coupon goes here.</p>
-            <p><strong>Discount:</strong> $10 off</p>
-        </div>
-    </div>
-
-    <div class="coupon-item">
-        <img src="coupon2.jpg" alt="Coupon Image">
-        <div>
-            <h3>Coupon Title 2</h3>
-            <p>Description of the coupon goes here.</p>
-            <p><strong>Discount:</strong> $10 off</p>
-        </div>
-    </div>
-
-    <div class="coupon-item">
-        <img src="coupon2.jpg" alt="Coupon Image">
-        <div>
-            <h3>Coupon Title 2</h3>
-            <p>Description of the coupon goes here.</p>
-            <p><strong>Discount:</strong> $10 off</p>
-        </div>
-    </div>
-
-    <!-- Add more coupons as needed -->
-</div>
 </main>
+<form method="get" action="{% url 'main:home' %}">
+  {% csrf_token %}
 
-<!-- Filter modal goes here -->
-<div id="filterModal" class="filter-modal" onclick="closeFilterModal()">
-    <div class="filter-content">
-        <h2>Filters</h2>
-        <!-- Add your filter options here -->
-        <label for="category">Category:</label>
-        <select id="category">
-            <option value="electronics">Electronics</option>
-            <option value="clothing">Clothing</option>
-            <!-- Add more options as needed -->
-        </select>
-        <!-- Add more filters as needed -->
-    </div>
-</div>
+  <label for="id_category">Category:</label>
+  <select name="category" id="id_category">
+    <option value="" selected>---------</option>
+    {% for choice in form.category.choices %}
+      <option value="{{ choice.0 }}" {% if form.category.value == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+    {% endfor %}
+  </select>
+
+  <label for="discount_price">Discount Price Range:</label>
+  <input type="text" id="discount_price" name="discount_price" />
+
+  <label for="discount_percent">Discount Percent Range:</label>
+  <input type="text" id="discount_percent" name="discount_percent" />
+
+  <button type="submit">Filter</button>
+
+
 
 <footer>
     <p>&copy; 2024 Your Company Name. All rights reserved.</p>
 </footer>
 
 <script>
-        function openFilterModal() {
-            document.getElementById('filterModal').style.display = 'flex';
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        const claimButtons = document.querySelectorAll('.claim-button');
 
-        function closeFilterModal() {
-            document.getElementById('filterModal').style.display = 'none';
-        }
+        claimButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                toggleClaim(this);
+            });
+        });
+    });
 
-</script>
+    document.addEventListener('click', function (event) {
+        closeFilterModal(event);
+    });
+    });
+
+    function toggleClaim(button) {
+        const claimed = button.getAttribute('data-claimed') === 'true';
+
+        if (claimed) {
+            button.classList.remove('claimed');
+            button.style.backgroundColor = '#e74c3c';
+            button.style.color = 'white';
+            button.setAttribute('data-claimed', 'false');
+            button.textContent = 'Claim';
+        } else {
+            button.classList.add('claimed');
+            button.style.backgroundColor = 'white';
+            button.style.color = 'red';
+            button.setAttribute('data-claimed', 'true');
+            button.textContent = 'Claimed';
+        }
+    }
+    // Initialize ion.rangeSlider for discount price
+    $("#discount_price").ionRangeSlider({
+      type: "double",
+      min: 0,
+      max: 10000,
+      from: {{ form.discount_price_min.value }},
+      to: {{ form.discount_price_max.value }},
+      postfix: "$"
+    });
+
+    // Initialize ion.rangeSlider for discount percent
+    $("#discount_percent").ionRangeSlider({
+      type: "double",
+      min: 0,
+      max: 100,
+      from: {{ form.discount_percent_min.value }},
+      to: {{ form.discount_percent_max.value }},
+      postfix: "%"
+    });
+
+   </script>
 {% endblock %}
+

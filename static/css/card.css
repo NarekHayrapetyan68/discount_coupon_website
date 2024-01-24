@@ -1,0 +1,39 @@
+.card-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.card {
+  border: 2px solid black;
+  border-radius: 5px;
+  width: 300px;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+}
+
+
+.card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 50%;
+    }
+
+.company-name {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+.category {
+      margin-top: 10px;
+      color: #555;
+    }
+
+.coupons {
+      margin-top: 10px;
+      font-weight: bold;
+    }

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.exceptions import ValidationError
+from main.models import Coupon
 
 
 class UserManager(BaseUserManager):
@@ -26,11 +27,10 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
-    first_name = models.CharField(max_length=155, blank=True, null=True)
-    last_name = models.CharField(max_length=155, blank=True, null=True)
-    image = models.ImageField(upload_to="users/images/")
+    username = models.CharField(max_length=155, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+    coupon = models.ManyToManyField(Coupon, related_name='user')
 
     objects = UserManager()
     USERNAME_FIELD = "email"

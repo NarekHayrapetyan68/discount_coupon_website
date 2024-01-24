@@ -1,0 +1,19 @@
+/* Style the search field container */
+.search-field-container {
+    margin: 75px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 25px;
+    border: 2px solid black;
+}
+
+/* Style the search field */
+.search-field-container input[type="text"] {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 5px;
+    padding-left: 15px;
+    border-radius: 55px;
+    background-color: white;
+}
