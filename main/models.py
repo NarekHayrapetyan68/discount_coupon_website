@@ -6,6 +6,9 @@ from core.models import User
 def upload_company_images(instance, filename):
     return f"users/{instance.user.username}/{filename}"
 
+# class Valod(models.TextChoices):
+#     Clothing = 'Clothing','clothing '
+
 
 class Company(models.Model):
     STATUS_CHOICES = (
@@ -42,19 +45,8 @@ class Coupon(models.Model):
     def clean(self):
         super().clean()
 
-        if not any([self.expire_date, self.limit]):
-            raise ValidationError("At least one of Expire date, Expire time, or Limit should be filled.")
-
         if not any([self.discount_percent, self.discount_price]):
             raise ValidationError("Discount price or Discount percent should be filled.")
-
-    def save(self, *args, **kwargs):
-        if self.limit is not None:
-            self.limit -= 1
-            if self.limit == 0:
-                self.claimed = True
-                self.limit = -1
-        super().save(*args, **kwargs)
 
 
 class CartItem(models.Model):
@@ -62,3 +54,4 @@ class CartItem(models.Model):
     user = models.ForeignKey(User, related_name='user_coupon', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
+

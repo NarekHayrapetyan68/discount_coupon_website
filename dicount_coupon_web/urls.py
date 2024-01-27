@@ -32,7 +32,7 @@ urlpatterns = [
          name="password_reset_confirm"),
     path("password-reset-complete/", auth_views.PasswordResetCompleteView.as_view(),
          name="password_reset_complete"),
-
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 if settings.DEBUG:
