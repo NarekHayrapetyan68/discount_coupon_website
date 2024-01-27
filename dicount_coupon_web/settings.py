@@ -109,6 +109,9 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+CART_SESSION_ID = 'cart'
+
+
 AUTH_USER_MODEL = "core.User"
 
 LOGIN_URL = "core:login"

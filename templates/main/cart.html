@@ -7,31 +7,31 @@
 <div class="container mt-5 mb-5">
     <div class="d-flex justify-content-center row">
         <div class="col-md-10">
-            {% for coupon in coupons%}
+            {% for cart_item in cart_items%}
             <div class="row p-2 bg-white border rounded">
                 <div class="col-md-3 mt-1"><a href="#"><img class="img-fluid img-responsive rounded product-image"
                                                             src="{% if coupon.company.image %}{{coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}"
                                                             alt="Company Logo"></a></div>
                 <div class="col-md-6 mt-1">
-                    <h3>Discount</h3>
+                    <h3>{{cart_item.coupon.coupon_code}}</h3>
                     <div class="d-flex flex-row">
                         <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
                                 class="fa fa-star"></i><i class="fa fa-star"></i></div>
-                        <span>{{coupon.company.name}}</span>
+                        <span>{{cart_item.coupon.company.name}}</span>
                     </div>
 
-                    <p class="text-justify text-truncate para mb-0">{{coupon.about}}<br><br></p>
+                    <p class="text-justify text-truncate para mb-0">{{cart_item.coupon.about}}<br><br></p>
                 </div>
                 <div class="align-items-center align-content-center col-md-3 border-left mt-1">
                     <div class="d-flex flex-row align-items-center">
-                        <h3 class="mr-1">{{coupon.discount_percent}}%</h3><span ></span>
+                        <h3 class="mr-1">{{cart_item.coupon.discount_percent}}%</h3><span ></span>
                     </div>
                     <h6 class="text-success"> </h6>
                     <div class="d-flex flex-column mt-4">
-                         <form method="post" action="{% url 'main:add_to_cart' coupon.id %}">
+                         <form method="post" action="{% url 'main:remove_from_cart' cart_item.id %}">
                             {% csrf_token %}
-                            <input type="hidden" name="coupon_id" value="{{ coupon.id }}">
-                            <button class="btn btn-danger btn-sm" type="submit">Claim</button>
+                            <input type="hidden" name="claimed_coupon_id" value="{{ cart_item.claimed_coupon.id }}">
+                            <button class="btn btn-danger btn-sm" type="submit">Unclaim</button>
                         </form>
                     </div>
                 </div>

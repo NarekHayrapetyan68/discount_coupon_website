@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.product-filter-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 2px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    float: right; /* Add this line */
+    margin-right: 20px; /* Add this line for spacing */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-group select,
+.form-group input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    border: 111px solid #ccc;
+    border-radius: 1111px;
+}
+

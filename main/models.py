@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.exceptions import ValidationError
-import datetime
+from core.models import User
 
 
 def upload_company_images(instance, filename):
@@ -27,12 +27,13 @@ class Company(models.Model):
 
 
 class Coupon(models.Model):
+    coupon_code = models.CharField(max_length=30, unique=True)
     discount_percent = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2)
     discount_price = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=0)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='coupons')
     about = models.TextField(blank=True, max_length=200)
-    expire_date = models.DateField(blank=True, null=True)
-    limit = models.DecimalField(max_digits=6, decimal_places=0, blank=True, null=True)
+    expire_date = models.DateField()
+    limit = models.DecimalField(max_digits=6, decimal_places=0)
     claimed = models.BooleanField(default=False)
 
     def __str__(self):
@@ -54,3 +55,10 @@ class Coupon(models.Model):
                 self.claimed = True
                 self.limit = -1
         super().save(*args, **kwargs)
+
+
+class CartItem(models.Model):
+    coupon = models.ForeignKey(Coupon, related_name='claimed_coupon',on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user_coupon', on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+    date_added = models.DateTimeField(auto_now_add=True)

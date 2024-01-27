@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<form class="product-filter-form" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_category">Category:</label>
+        <select name="category" id="id_category">
+            <option value="">---------</option>
+            {% for category, label in form.category.field.choices %}
+                <option value="{{ category }}">{{ label }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="id_discount_price_min">Minimum Discount Price:</label>
+        <input type="number" name="discount_price_min" id="id_discount_price_min" step="0.01" min="0" max="10000">
+    </div>
+    <div class="form-group">
+        <label for="id_discount_price_max">Maximum Discount Price:</label>
+        <input type="number" name="discount_price_max" id="id_discount_price_max" step="0.01" min="0" max="10000">
+    </div>
+    <div class="form-group">
+        <label for="id_discount_percent_min">Minimum Discount Percent:</label>
+        <input type="number" name="discount_percent_min" id="id_discount_percent_min" step="1" min="0" max="100">
+    </div>
+    <div class="form-group">
+        <label for="id_discount_percent_max">Maximum Discount Percent:</label>
+        <input type="number" name="discount_percent_max" id="id_discount_percent_max" step="1" min="0" max="100">
+    </div>
+    <button type="submit">Filter</button>
+</form>
+
+
+{% endblock %}

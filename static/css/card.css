@@ -1,13 +1,14 @@
 .card-container {
   display: flex;
   justify-content: space-around;
+
 }
 
 .card {
   border: 2px solid black;
   border-radius: 5px;
-  width: 300px;
-  height: 400px;
+  width: 150px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,9 +18,9 @@
 
 
 .card img {
-      max-width: 100%;
+      max-width: 50%;
       height: auto;
-      border-radius: 50%;
+      border-radius: 25%;
     }
 
 .company-name {
