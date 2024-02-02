@@ -33,6 +33,10 @@ urlpatterns = [
     path("password-reset-complete/", auth_views.PasswordResetCompleteView.as_view(),
          name="password_reset_complete"),
     path("__debug__/", include("debug_toolbar.urls")),
+    path("api-auth/", include("rest_framework.urls")),
+    path("api/v1/coupon/", include("main.api.urls")),
+    path("premium/", include("subscription.urls", namespace="payment")),
+
 ]
 
 if settings.DEBUG:

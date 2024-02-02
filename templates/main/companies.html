@@ -3,56 +3,38 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'img/no_image.jpeg' %}">
-<link rel="stylesheet" href="{% static 'css/search.css' %}">
 <link rel="stylesheet" href="{% static 'css/card.css' %}">
-<form class="search" action="">
-    <div class="search-field-container">
-        <input type="text" placeholder="Search...">
-    </div>
-</form>
-<div class="card-container">
-    <div class="card">
-        <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}"
-             alt="Company Logo">
-        <div class="company-name">Company Name</div>
-        <div class="category">Category</div>
-        <div class="coupons">Coupons: 8</div>
-    </div>
-    <div class="card">
-        <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}"
-             alt="Company Logo">
-        <div class="company-name">Company Name</div>
-        <div class="category">Category</div>
-        <div class="coupons">Coupons: 8</div>
-    </div>
-    <div class="card">
-        <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}"
-             alt="Company Logo">
-        <div class="company-name">Company Name</div>
-        <div class="category">Category</div>
-        <div class="coupons">Coupons: 8</div>
-    </div>
-    <div class="card">
-        <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}"
-             alt="Company Logo">
-        <div class="company-name">Company Name</div>
-        <div class="category">Category</div>
-        <div class="coupons">Coupons: 8</div>
-    </div>
-    <div class="card">
-        <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}"
-             alt="Company Logo">
-        <div class="company-name">Company Name</div>
-        <div class="category">Category</div>
-        <div class="coupons">Coupons: 8</div>
-    </div>
-    <div class="card">
-        <img src="{% if coupon.company.image %}{{ coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}"
-             alt="Company Logo">
-        <div class="company-name">Company Name</div>
-        <div class="category">Category</div>
-        <div class="coupons">Coupons: 8</div>
-    </div>
+<link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+
+{% for company in companies%}
+<div class="card">
+  <div class="card-image-container">
+    <a href="{% url 'main:company_detail' company.pk%}"><img src="{% static 'img/no_image.jpeg'"></a>
+  </div>
+  <p class="card-title">{{company.name}}</p>
+  <p class="card-des">
+    {{company.type}}
+  </p>
+  <p class="card-des">
+    {{company.about}}
+  </p>
+  <p class="card-des">
+    Coupons: {{company.coupons.count}}
+  </p>
 </div>
+
+{% endfor %}
+<div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page=1">&laquo;</a>
+      <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+    {% endif %}
+    <a href="#" class="active">{{ page_obj.number }}</a>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">&raquo;</a>
+    {% endif %}
+  </div>
+
 
 {% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html'%}
+{% load static %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+<link rel="stylesheet" href="{% static 'css/pagination.css' %}">
+<div class="container mt-5 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-10">
+            {% for coupon in company.coupons.all %}
+            {% if coupon.hot_offer%}
+            <div class="row p-2 bg-white border rounded">
+                <div class="col-md-3 mt-1"><a href="#"><img class="img-fluid img-responsive rounded product-image"
+                                                            src="{% if company.image %}{{coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}"
+                                                            alt="Company Logo"></a></div>
+                <div class="col-md-6 mt-1">
+                    <h3>Discount</h3>
+                    <h3>SPECIAL OFFER</h3>
+                    <div class="d-flex flex-row">
+                        <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                        <span>{{company.name}}</span>
+                    </div>
+
+                    <p class="text-justify text-truncate para mb-0">{{coupon.about}}<br><br></p>
+                </div>
+                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                    <div class="d-flex flex-row align-items-center">
+                        <h3 class="mr-1">{{coupon.discount_percent}}%</h3><span></span>
+                    </div>
+                    <h6 class="text-success"></h6>
+                    <div class="d-flex flex-column mt-4">
+                        {% if not coupon.id in cart_coupons %}
+                            {% if request.user.is_premium_plus_user%}
+                        <form method="post" action="{% url 'main:add_to_cart' coupon.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="coupon_id" value="{{ coupon.id }}">
+                            <button class="btn btn-danger btn-sm" type="submit">Claim</button>
+                        </form>
+                            {% else %}
+
+                            <input type="hidden">
+                            <button class="btn btn-danger btn-sm" type="submit"><a href="{% url 'payment:payment_detail' %}" >Claim</a></button>
+
+                            {% endif %}
+                        {% else %}
+                        <a href="{% url 'main:view_cart'%}"><h6 class="text-success">Claimed</h6></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="row p-2 bg-white border rounded">
+                <div class="col-md-3 mt-1"><a href="#"><img class="img-fluid img-responsive rounded product-image"
+                                                            src="{% if coupon.company.image %}{{coupon.company.image.url }}{% else %}{% static 'img/no_image.jpeg'%}{% endif %}"
+                                                            alt="Company Logo"></a></div>
+                <div class="col-md-6 mt-1">
+                    <h3>Discount</h3>
+
+                    <div class="d-flex flex-row">
+                        <div class="ratings mr-2"><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                class="fa fa-star"></i><i class="fa fa-star"></i></div>
+                        <span>{{coupon.company.name}}</span>
+                    </div>
+
+                    <p class="text-justify text-truncate para mb-0">{{coupon.about}}<br><br></p>
+                </div>
+                <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                    <div class="d-flex flex-row align-items-center">
+                        <h3 class="mr-1">{{coupon.discount_percent}}%</h3><span></span>
+                    </div>
+                    <h6 class="text-success"></h6>
+                    <div class="d-flex flex-column mt-4">
+                        {% if not coupon.id in cart_coupons %}
+                        <form method="post" action="{% url 'main:add_to_cart' coupon.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="coupon_id" value="{{ coupon.id }}">
+                            <button class="btn btn-danger btn-sm" type="submit">Claim</button>
+                        </form>
+                        {% else %}
+                        <a href="{% url 'main:view_cart'%}"><h6 class="text-success">Claimed</h6></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+
+        </div>
+    </div>
+    <div class="center">
+</div>
+</div>
+
+{% endblock %}

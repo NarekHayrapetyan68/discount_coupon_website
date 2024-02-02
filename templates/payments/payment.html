@@ -1,0 +1,84 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/payment.css'%}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha384-Zz6S4trjJvS29Fa52sL2S/MnGc2xFtd8AjCZ6eFg/RI5VMmw4bKQJdoZcYz8OEDL" crossorigin="anonymous">
+
+<body>
+
+<section class="about-us">
+    <div class="about">
+
+        <div class="text">
+            <h2>Unlock Exclusive Savings with Our Premium Subscription Plan!</h2>
+            <p>🔥 Supercharge Your Savings with Our Premium Subscription! 🔥
+
+                Unlock more coupon limit and exclusive offers
+
+                Upgrade Now!</p>
+            <div class="data">
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="article-container">
+    {% for payment in payments %}
+    <article class="plan [ card ]">
+        <div class="inner">
+            <span class="tag">Feature</span>
+            <span class="pricing">
+
+				<span>
+					{{payment.price}} <small>/ m</small>
+				</span>
+			</span>
+            <h2 class="title">{{payment.name}}</h2>
+            <p class="info">{{payment.description}}</p>
+            <ul class="features">
+                <li>
+					<span class="icon">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+							<path fill="none" d="M0 0h24v24H0z"/>
+							<path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
+                                  fill="currentColor"/>
+						</svg>
+					</span>
+                    <span><strong>Best</strong> songs</span>
+                </li>
+                <li>
+					<span class="icon">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+							<path fill="none" d="M0 0h24v24H0z"/>
+							<path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
+                                  fill="currentColor"/>
+						</svg>
+					</span>
+                    <span>Best <strong>feeling</strong></span>
+                </li>
+                <li>
+					<span class="icon">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+							<path fill="none" d="M0 0h24v24H0z"/>
+							<path d="M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z"
+                                  fill="currentColor"/>
+						</svg>
+					</span>
+                    <span>In Best template</span>
+                </li>
+            </ul>
+            <a href="{% url 'payment:create_checkout_session' pk=payment.pk %}" class="button">
+                <button class="button">
+                    Buy Now
+                </button>
+            </a>
+        </div>
+    </article>
+    {% endfor %}
+
+</div>
+</body>
+{% endblock %}

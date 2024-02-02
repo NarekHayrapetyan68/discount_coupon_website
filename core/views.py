@@ -10,7 +10,7 @@ from django.conf import settings
 from .forms import EmailForm, RegistrationForm
 from django.contrib.auth import get_user_model
 from .generate_token import account_activation_token
-
+from .tasks import send_email_task
 
 User = get_user_model()
 
@@ -25,8 +25,8 @@ class EmailView(FormView):
         email = form.cleaned_data['email']
         subject = form.cleaned_data['subject']
         body = form.cleaned_data['body']
-        send_mail(subject, body, from_email=settings.EMAIL_HOST_USER,
-                  recipient_list=[email])
+        send_email_task.apply_async(kwargs={"body": body, "subject": subject,
+                                            "email": email})
         return response
 
 

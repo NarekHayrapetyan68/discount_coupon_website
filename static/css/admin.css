@@ -1,0 +1,30 @@
+#header {
+    background:  #000000;
+    color: #c9c9c9;
+}
+
+
+#branding h1 {
+    color: #fff;
+}
+
+div.breadcrumbs {
+    background: #000000;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background: #262626;
+}
+
+a:link, a:visited {
+    color: #151313;
+
+}
+
+:root {
+    --accent: #151313;
+    --selected-row: #c9c9c9;
+    --darkened-bg: #fff;
+    --primary: #3d443d;
+    --secondary: #035394;
+}

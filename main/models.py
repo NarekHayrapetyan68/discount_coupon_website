@@ -4,10 +4,7 @@ from core.models import User
 
 
 def upload_company_images(instance, filename):
-    return f"users/{instance.user.username}/{filename}"
-
-# class Valod(models.TextChoices):
-#     Clothing = 'Clothing','clothing '
+    return f"{instance.name}/{filename}"
 
 
 class Company(models.Model):
@@ -37,6 +34,7 @@ class Coupon(models.Model):
     about = models.TextField(blank=True, max_length=200)
     expire_date = models.DateField()
     limit = models.DecimalField(max_digits=6, decimal_places=0)
+    hot_offer = models.BooleanField(default=False)
     claimed = models.BooleanField(default=False)
 
     def __str__(self):
@@ -50,8 +48,11 @@ class Coupon(models.Model):
 
 
 class CartItem(models.Model):
-    coupon = models.ForeignKey(Coupon, related_name='claimed_coupon',on_delete=models.CASCADE)
+    coupon = models.ForeignKey(Coupon, related_name='claimed_coupon', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='user_coupon', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user
 
