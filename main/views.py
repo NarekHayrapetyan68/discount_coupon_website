@@ -5,7 +5,8 @@ from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from .models import Coupon, Company, CartItem
-from .tasks import send_cart_item_added_email
+# from .tasks import send_cart_item_added_email, send_cart_item_remove_email
+
 
 class HomePage(ListView):
     model = Coupon
@@ -16,14 +17,14 @@ class HomePage(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            context['cart_coupons'] = CartItem.objects.select_related('user', 'coupon').filter(user=self.request.user).values_list(
-                'coupon__id', flat=True)
+            context['cart_coupons'] = CartItem.objects.select_related('user', 'coupon').filter(
+                user=self.request.user).values_list('coupon__id', flat=True)
         else:
             context['cart_coupons'] = []
         return context
 
     def get_queryset(self):
-        return super().get_queryset().select_related('company')
+        return super().get_queryset().select_related('company').order_by('pk')
 
 
 class CompaniesList(ListView):
@@ -53,7 +54,7 @@ class AddToCartView(LoginRequiredMixin, View):
         )
         cart_item.save()
 
-        send_cart_item_added_email.apply_async(request.user.id, cart_item.id)
+        # send_cart_item_added_email.apply_async(request.user.id, cart_item.id)
 
         return redirect('main:view_cart')
 
@@ -68,7 +69,7 @@ class RemoveFromCartView(LoginRequiredMixin, View):
         related_coupon.limit = F('limit') + 1
         related_coupon.save()
 
-        send_cart_item_remove_email.apply_async(request.user.id)
+        # send_cart_item_remove_email.apply_async(request.user.id)
         return redirect('main:home')
 
 

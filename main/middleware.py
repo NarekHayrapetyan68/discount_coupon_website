@@ -24,17 +24,20 @@ class RequestLoggingMiddleware(MiddlewareMixin):
         self.logger.info(f"Request: {json.dumps(log_data)}")
 
     def _log_response(self, response):
-        try:
-            content = response.content.decode('utf-8')
-        except UnicodeDecodeError as e:
-            self.logger.warning(f"Failed to decode response content: {e}")
-            content = 'Failed to decode content'
-        log_data = {
-            'status_code': response.status_code,
-            'headers': dict(response.headers),
-            'body': content,
-        }
-        self.logger.info(f"Response: {json.dumps(log_data)}")
+        if hasattr(response, 'streaming_content'):
+            content = b''.join(response.streaming_content)
+        else:
+            try:
+                content = response.content.decode('utf-8')
+            except UnicodeDecodeError as e:
+                self.logger.warning(f"Failed to decode response content: {e}")
+                content = 'Failed to decode content'
+            log_data = {
+                'status_code': response.status_code,
+                'headers': dict(response.headers),
+                'body': content,
+            }
+            self.logger.info(f"Response: {json.dumps(log_data)}")
 
     def __call__(self, request):
         self._log_request(request)

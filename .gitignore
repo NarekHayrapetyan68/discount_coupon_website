@@ -1,1 +1,6 @@
 .env
+main.log
+.flake8
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir

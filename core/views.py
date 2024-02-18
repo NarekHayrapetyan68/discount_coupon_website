@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import send_mail, EmailMessage
+from django.core.mail import EmailMessage
 from django.views.generic import TemplateView, FormView, CreateView
 from django.contrib.auth.views import LoginView as Login
 from django.contrib.auth.views import LogoutView as Logout
@@ -11,6 +11,7 @@ from .forms import EmailForm, RegistrationForm
 from django.contrib.auth import get_user_model
 from .generate_token import account_activation_token
 from .tasks import send_email_task
+
 
 User = get_user_model()
 

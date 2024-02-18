@@ -1,4 +1,4 @@
-from rest_framework.generics import ListCreateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from .serializers import CompanySerializer, CouponSerializer
 from main.models import Coupon, Company
 
@@ -20,4 +20,10 @@ class CouponListCreateAPIView(ListCreateAPIView):
 class ListCompanyAPIView(ListCreateAPIView):
     queryset = Company.objects.all().order_by("-pk")
     serializer_class = CompanySerializer
+
+
+class CompanyRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Company.objects.all().order_by("-pk")
+    serializer_class = CompanySerializer
+    lookup_field = "id"
 

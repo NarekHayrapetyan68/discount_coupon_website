@@ -1,6 +1,5 @@
 import stripe
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.shortcuts import redirect, reverse
 from django.views.generic import ListView, TemplateView
@@ -54,8 +53,7 @@ def create_checkout_session(request, pk):
     return redirect(session.url, code=303)
 
 
-@method_decorator(login_required, name='dispatch')
-class SuccessView(TemplateView):
+class SuccessView(LoginRequiredMixin, TemplateView):
     template_name = 'main/home_page.html'
 
     def get(self, request, *args, **kwargs):
